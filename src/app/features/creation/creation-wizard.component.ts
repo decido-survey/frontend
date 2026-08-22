@@ -18,29 +18,7 @@ import { PublishStepComponent } from './steps/publish-step/publish-step.componen
     AdvancedStepComponent,
     PublishStepComponent
   ],
-  template: `
-    <app-topbar [activeStepIndex]="state.currentStepIndex()" />
-
-    <section class="screen">
-      @switch (state.currentStep()) {
-        @case ('home') {
-          <app-type-step />
-        }
-        @case ('setup') {
-          <app-setup-step />
-        }
-        @case ('theme') {
-          <app-theme-step />
-        }
-        @case ('advanced') {
-          <app-advanced-step />
-        }
-        @case ('publish') {
-          <app-publish-step />
-        }
-      }
-    </section>
-  `
+  templateUrl: './creation-wizard.component.html'
 })
 export class CreationWizardComponent {
   protected readonly state = inject(CreationStateService);

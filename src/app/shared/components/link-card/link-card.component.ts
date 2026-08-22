@@ -3,24 +3,7 @@ import { Component, input, signal } from '@angular/core';
 @Component({
   selector: 'app-link-card',
   standalone: true,
-  template: `
-    <div class="link-card" [class.admin]="isAdmin()">
-      <div class="link-label">{{ label() }}</div>
-      <div class="link-value-row">
-        <div class="link-value">{{ url() }}</div>
-        <button
-          class="copy-btn"
-          [class.copied]="copied()"
-          (click)="copyToClipboard()"
-        >
-          {{ copied() ? 'copié !' : 'copier' }}
-        </button>
-      </div>
-      @if (note()) {
-        <div class="link-note">{{ note() }}</div>
-      }
-    </div>
-  `
+  templateUrl: './link-card.component.html'
 })
 export class LinkCardComponent {
   readonly label = input<string>('Lien');

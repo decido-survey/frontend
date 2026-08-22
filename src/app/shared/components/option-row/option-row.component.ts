@@ -3,20 +3,7 @@ import { Component, input, output } from '@angular/core';
 @Component({
   selector: 'app-option-row',
   standalone: true,
-  template: `
-    <div class="option-row">
-      <div class="letter">{{ letter() }}</div>
-      <input
-        type="text"
-        [value]="value()"
-        [placeholder]="placeholder()"
-        (input)="onInputChange($event)"
-      />
-      @if (removable()) {
-        <div class="remove-opt" (click)="remove.emit()">×</div>
-      }
-    </div>
-  `
+  templateUrl: './option-row.component.html'
 })
 export class OptionRowComponent {
   readonly letter = input<string>('A');

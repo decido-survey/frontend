@@ -1,0 +1,12 @@
+<div class="option-row">
+  <div class="letter">{{ letter() }}</div>
+  <input
+    type="text"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    (input)="onInputChange($event)"
+  />
+  @if (removable()) {
+    <div class="remove-opt" (click)="remove.emit()">×</div>
+  }
+</div>

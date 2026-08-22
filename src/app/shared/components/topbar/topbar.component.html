@@ -1,0 +1,14 @@
+<header class="topbar">
+  <div class="brand">déci<span>d</span>o</div>
+  @if (showDots()) {
+    <div class="dots">
+      @for (stepIndex of [0, 1, 2, 3, 4]; track stepIndex) {
+        <div
+          class="dot"
+          [class.done]="stepIndex < activeStepIndex()"
+          [class.active]="stepIndex === activeStepIndex()"
+        ></div>
+      }
+    </div>
+  }
+</header>

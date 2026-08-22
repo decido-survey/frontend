@@ -1,0 +1,9 @@
+<div class="bar-row">
+  <div class="bar-label">
+    <span>{{ label() }}</span>
+    <span class="count">{{ votesCount() }} {{ votesCount() > 1 ? 'votes' : 'vote' }} ({{ percentage() }}%)</span>
+  </div>
+  <div class="bar-track">
+    <div class="bar-fill" [style.width.%]="percentage()"></div>
+  </div>
+</div>

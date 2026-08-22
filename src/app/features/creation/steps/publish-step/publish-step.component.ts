@@ -11,37 +11,7 @@ import { Survey } from '../../../../models/survey.model';
   selector: 'app-publish-step',
   standalone: true,
   imports: [LucideCheck, BackLinkComponent, LinkCardComponent],
-  template: `
-    <app-back-link label="retour" (clickBack)="state.goToStep('advanced')" />
-
-    <div class="big-check">
-      <svg lucideCheck class="w-8 h-8 text-white stroke-[3]"></svg>
-    </div>
-
-    <h1 class="text-center">Publié 🎉</h1>
-    <div class="sub text-center">Ton sondage est en ligne, deux liens à garder :</div>
-
-    <app-link-card
-      label="Lien à partager"
-      [url]="state.shareLink()"
-      [isAdmin]="false"
-    />
-
-    <app-link-card
-      label="Ton lien pour voir les résultats & modifier"
-      [url]="state.adminLink()"
-      [isAdmin]="true"
-      note="Gardé automatiquement sur ce navigateur. Si tu supprimes une option déjà votée, ses votes restent visibles en 'orphelins' dans les résultats."
-    />
-
-    <button class="btn btn-block" style="margin-top: 8px;" (click)="viewResults()">
-      Voir un aperçu des résultats →
-    </button>
-    
-    <button class="btn btn-ghost btn-block" style="margin-top: 10px;" (click)="state.reset()">
-      Créer un autre sondage
-    </button>
-  `
+  templateUrl: './publish-step.component.html'
 })
 export class PublishStepComponent implements OnInit {
   protected readonly state = inject(CreationStateService);
