@@ -61,4 +61,9 @@ export class PublishStepComponent implements OnInit {
       this.router.navigate(['/s', 'demo', 'results']);
     }
   }
+
+  resetAndGoHome(): void {
+    this.state.reset();
+    this.router.navigate(['/']);
+  }
 }

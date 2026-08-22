@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   LucideList,
   LucideSwords,
@@ -9,6 +10,7 @@ import {
 } from '@lucide/angular';
 import { QUESTION_TYPES, SurveyTypeId } from '../../../../models/question-type.model';
 import { CreationStateService } from '../../../../services/creation-state.service';
+import { BackLinkComponent } from '../../../../shared/components/back-link/back-link.component';
 
 @Component({
   selector: 'app-type-step',
@@ -19,11 +21,17 @@ import { CreationStateService } from '../../../../services/creation-state.servic
     LucideStar,
     LucideMessageSquare,
     LucideAlignLeft,
-    LucideCheck
+    LucideCheck,
+    BackLinkComponent
   ],
   templateUrl: './type-step.component.html'
 })
 export class TypeStepComponent {
   protected readonly state = inject(CreationStateService);
   protected readonly questionTypes = QUESTION_TYPES;
+  private readonly router = inject(Router);
+
+  goHome(): void {
+    this.router.navigate(['/']);
+  }
 }

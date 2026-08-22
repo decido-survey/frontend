@@ -1,0 +1,70 @@
+<app-topbar />
+
+<main class="landing-hero">
+  <!-- Tag pill -->
+  <div class="landing-pill">
+    <svg lucideZap class="w-3.5 h-3.5"></svg>
+    <span>Sondages instantanés, sans compte requis</span>
+  </div>
+
+  <!-- Headline -->
+  <h1 class="landing-title">
+    Décide<span class="accent">.</span><br/>
+    Vite<span class="accent">.</span>
+  </h1>
+  <p class="landing-desc">
+    Crée un sondage en 30 secondes, partage le lien et collecte des avis —
+    QCM, Duel, Note, Question ouverte.
+  </p>
+
+  <!-- CTA -->
+  <div class="landing-cta-row">
+    <button class="btn btn-primary landing-cta" (click)="start()">
+      <span>Commencer</span>
+      <svg lucideChevronRight class="w-5 h-5 stroke-[2.5]"></svg>
+    </button>
+    <span class="landing-cta-note">Gratuit · Aucun compte nécessaire</span>
+  </div>
+
+  <!-- Feature cards -->
+  <div class="landing-features">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: #FFC93C;">
+        <svg lucideZap class="w-4 h-4"></svg>
+      </div>
+      <div>
+        <div class="feature-title">Rapide à créer</div>
+        <div class="feature-desc">Un sondage en 5 clics, sans inscription.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background: #2EC4E0;">
+        <svg lucideShare2 class="w-4 h-4"></svg>
+      </div>
+      <div>
+        <div class="feature-title">Partage instantané</div>
+        <div class="feature-desc">Un lien unique pour voter, un autre pour administrer.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background: #12B886;">
+        <svg lucideBarChart2 class="w-4 h-4"></svg>
+      </div>
+      <div>
+        <div class="feature-title">Résultats en direct</div>
+        <div class="feature-desc">Visualise les votes au fur et à mesure.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background: #7C5CFC;">
+        <svg lucideLock class="w-4 h-4"></svg>
+      </div>
+      <div>
+        <div class="feature-title">Sécurisé</div>
+        <div class="feature-desc">Lien admin privé, résultats publics ou privés au choix.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-footer />

@@ -1,14 +1,101 @@
-<header class="topbar">
-  <div class="brand">déci<span>d</span>o</div>
-  @if (showDots()) {
-    <div class="dots">
-      @for (stepIndex of [0, 1, 2, 3, 4]; track stepIndex) {
-        <div
-          class="dot"
-          [class.done]="stepIndex < activeStepIndex()"
-          [class.active]="stepIndex === activeStepIndex()"
-        ></div>
+@if (menuOpen()) {
+  <div class="backdrop-overlay" (click)="closeMenu()"></div>
+}
+<header class="topbar-wrapper">
+  <div class="topbar">
+    <!-- Brand link -->
+    <a class="brand" routerLink="/">déci<span>d</span>o</a>
+
+    <!-- Account button -->
+    <div class="account-wrapper">
+      <button class="account-btn" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-haspopup="true">
+        <div class="account-avatar">
+          @if (auth.isLoggedIn()) {
+            <span class="account-initial">{{ auth.currentUser()?.pseudo?.charAt(0)?.toUpperCase() }}</span>
+          } @else {
+            <svg lucideUser class="w-4 h-4"></svg>
+          }
+        </div>
+        <svg lucideChevronDown class="account-chevron w-3.5 h-3.5" [class.rotated]="menuOpen()"></svg>
+      </button>
+
+      <!-- Dropdown -->
+      @if (menuOpen()) {
+        <div class="account-dropdown">
+
+          @if (auth.isLoggedIn()) {
+            <!-- Logged in state -->
+            <div class="dropdown-header">
+              <div class="dropdown-pseudo">{{ auth.currentUser()?.pseudo }}</div>
+              @if (auth.currentUser()?.email) {
+                <div class="dropdown-email">{{ auth.currentUser()?.email }}</div>
+              }
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="closeMenu()">
+              <svg lucideSettings class="w-3.5 h-3.5"></svg>
+              <span>Paramètres du compte</span>
+            </button>
+            <button class="dropdown-item dropdown-item--danger" (click)="logout()">
+              <svg lucideLogOut class="w-3.5 h-3.5"></svg>
+              <span>Se déconnecter</span>
+            </button>
+
+          } @else if (loginMode()) {
+            <!-- Login form -->
+            <div class="dropdown-form">
+              <div class="dropdown-form-title">Connexion</div>
+              <label class="dropdown-label">Pseudo *</label>
+              <input
+                type="text"
+                class="dropdown-input"
+                placeholder="ex : Marie"
+                [value]="loginPseudo()"
+                (input)="loginPseudo.set($any($event.target).value)"
+              />
+              <label class="dropdown-label">Email</label>
+              <input
+                type="email"
+                class="dropdown-input"
+                placeholder="ex : marie@mail.com"
+                [value]="loginEmail()"
+                (input)="loginEmail.set($any($event.target).value)"
+              />
+              <label class="dropdown-label">Mot de passe</label>
+              <input
+                type="password"
+                class="dropdown-input"
+                placeholder="••••••••"
+                [value]="loginPassword()"
+                (input)="loginPassword.set($any($event.target).value)"
+                (keyup.enter)="submitLogin()"
+              />
+              @if (loginError()) {
+                <div class="dropdown-error">{{ loginError() }}</div>
+              }
+              <button
+                class="dropdown-submit"
+                (click)="submitLogin()"
+                [disabled]="loginLoading()"
+              >
+                {{ loginLoading() ? 'Connexion…' : 'Se connecter' }}
+              </button>
+            </div>
+
+          } @else {
+            <!-- Logged out state -->
+            <div class="dropdown-anon">
+              <div class="dropdown-anon-title">Compte</div>
+              <div class="dropdown-anon-desc">Connecte-toi pour retrouver tes sondages sur n'importe quel appareil.</div>
+            </div>
+            <button class="dropdown-item" (click)="showLogin()">
+              <svg lucideUser class="w-3.5 h-3.5"></svg>
+              <span>Se connecter</span>
+            </button>
+          }
+
+        </div>
       }
     </div>
-  }
+  </div>
 </header>

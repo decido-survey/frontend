@@ -1,25 +1,46 @@
 import { Routes } from '@angular/router';
+import { LandingComponent } from './features/landing/landing.component';
 import { CreationWizardComponent } from './features/creation/creation-wizard.component';
 import { SurveyVoteComponent } from './features/vote/survey-vote.component';
 import { SurveyResultsComponent } from './features/results/survey-results.component';
 
 export const routes: Routes = [
+  // Landing
   {
     path: '',
-    component: CreationWizardComponent
+    component: LandingComponent,
+    title: 'Decido – Sondages instantanés'
   },
+
+  // Wizard de création
+  {
+    path: 'create',
+    component: CreationWizardComponent,
+    title: 'Créer un sondage – Decido'
+  },
+
+  // Page de vote (répondants)
   {
     path: 's/:token',
-    component: SurveyVoteComponent
+    component: SurveyVoteComponent,
+    title: 'Voter – Decido'
   },
-  {
-    path: 's/:token/admin/:adminToken',
-    component: SurveyResultsComponent
-  },
+
+  // Résultats publics
   {
     path: 's/:token/results',
-    component: SurveyResultsComponent
+    component: SurveyResultsComponent,
+    title: 'Résultats – Decido'
   },
+
+  // Dashboard admin
+  {
+    path: 's/:token/admin/:adminToken',
+    component: SurveyResultsComponent,
+    title: 'Administration – Decido'
+  },
+
+  // Fallback
   {
     path: '**',
     redirectTo: ''

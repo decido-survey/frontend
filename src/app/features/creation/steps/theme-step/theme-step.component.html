@@ -1,4 +1,4 @@
-<app-back-link label="retour" (clickBack)="state.goToStep('setup')" />
+<app-back-link label="retour" [stepIndex]="2" (clickBack)="state.goToStep('setup')" />
 
 <h1>Ton style</h1>
 <div class="sub">Choisi automatiquement selon le type — change-le si tu veux</div>

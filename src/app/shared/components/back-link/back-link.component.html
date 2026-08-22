@@ -1,3 +1,17 @@
-<div class="back-link" (click)="clickBack.emit()">
-  <span>← {{ label() }}</span>
+<div class="back-link-row">
+  <div class="back-link" (click)="clickBack.emit()">
+    <span>← {{ label() }}</span>
+  </div>
+
+  @if (stepIndex() !== null) {
+    <div class="step-dots">
+      @for (i of dotsArray; track i) {
+        <div
+          class="dot"
+          [class.done]="i < stepIndex()!"
+          [class.active]="i === stepIndex()"
+        ></div>
+      }
+    </div>
+  }
 </div>
