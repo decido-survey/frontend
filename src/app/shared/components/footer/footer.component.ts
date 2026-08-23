@@ -7,6 +7,7 @@ import { LucideMail, LucidePhone } from '@lucide/angular';
   standalone: true,
   imports: [RouterLink, LucideMail, LucidePhone],
   templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.css']
 
 })
 export class FooterComponent {}

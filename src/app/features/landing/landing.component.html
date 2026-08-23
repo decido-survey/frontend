@@ -1,32 +1,59 @@
 <app-topbar />
 
 <main class="landing-hero">
-  <!-- Tag pill -->
-  <div class="landing-pill">
-    <svg lucideZap class="w-3.5 h-3.5"></svg>
-    <span>Sondages instantanés, sans compte requis</span>
-  </div>
+  <section class="landing-hero-row">
+    <div class="landing-copy">
+      <!-- Tag pill -->
+      <div class="landing-pill">
+        <svg lucideZap class="w-3.5 h-3.5"></svg>
+        <span>Sondages instantanés, sans compte requis</span>
+      </div>
 
-  <!-- Headline -->
-  <h1 class="landing-title">
-    Décide<span class="accent">.</span><br/>
-    Vite<span class="accent">.</span>
-  </h1>
-  <p class="landing-desc">
-    Crée un sondage en 30 secondes, partage le lien et collecte des avis —
-    QCM, Duel, Note, Question ouverte.
-  </p>
+      <!-- Headline animée (effet machine à écrire) -->
+      <h1 class="landing-title typewriter-title">
+        <span class="typewriter-line"
+          >{{ line1Base() }}<span class="accent">{{ line1Dot() }}</span
+          >@if (activeLine() === 1) {
+            <span class="typewriter-cursor"></span>
+          }</span
+        >
+        <br />
+        <span class="typewriter-line"
+          >{{ line2Base() }}<span class="accent">{{ line2Dot() }}</span
+          >@if (activeLine() === 2) {
+            <span class="typewriter-cursor"></span>
+          }</span
+        >
+      </h1>
 
-  <!-- CTA -->
-  <div class="landing-cta-row">
-    <button class="btn btn-primary landing-cta" (click)="start()">
-      <span>Commencer</span>
-      <svg lucideChevronRight class="w-5 h-5 stroke-[2.5]"></svg>
-    </button>
-    <span class="landing-cta-note">Gratuit · Aucun compte nécessaire</span>
-  </div>
+      <p class="landing-desc">
+        Crée un sondage en 30 secondes, partage le lien et collecte des avis —
+        QCM, Duel, Note, Question ouverte.
+      </p>
+
+      <!-- CTA -->
+      <div class="landing-cta-row">
+        <button class="btn btn-primary landing-cta" (click)="start()">
+          <span>Commencer</span>
+          <svg lucideChevronRight class="w-5 h-5 stroke-[2.5]"></svg>
+        </button>
+        <span class="landing-cta-note">Gratuit · Aucun compte nécessaire</span>
+      </div>
+    </div>
+
+    <div class="landing-visual" aria-label="Illustration de création de sondage">
+      <div class="landing-image-wrap">
+        <img class="landing-image" src="/landing.png" alt="Personne utilisant un téléphone pour créer un sondage" />
+      </div>
+    </div>
+  </section>
 
   <!-- Feature cards -->
+  <h1 class="landing-features-title">Pourquoi allez-vous rester ?</h1>
+  <div class="sub" style="margin-bottom: 4px;">
+    Mis à part le fait que nous soyons les meilleurs... 😅 <br />Voici quelques raisons supplémentaires :
+  </div>
+
   <div class="landing-features">
     <div class="feature-card">
       <div class="feature-icon" style="background: #FFC93C;">
@@ -65,6 +92,10 @@
       </div>
     </div>
   </div>
+
+  <app-types-carousel />
+
+  <app-faq />
 </main>
 
 <app-footer />
