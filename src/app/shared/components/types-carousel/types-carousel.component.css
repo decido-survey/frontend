@@ -11,17 +11,32 @@
   font-size: clamp(22px, 3vw, 30px);
   margin-bottom: 4px;
 }
+
+.types-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+  touch-action: pan-y; /* laisse le scroll vertical de la page passer, on gère l'horizontal nous-mêmes */
+  user-select: none;
+}
+
 .types-carousel-track {
   display: flex;
   gap: 14px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
-  -webkit-overflow-scrolling: touch;
+  width: max-content;
+  padding-bottom: 4px;
+  cursor: grab;
+  will-change: transform;
 }
-.types-carousel-track::-webkit-scrollbar {
-  height: 6px;
+
+.types-carousel-track.dragging {
+  cursor: grabbing;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  /* L'utilisateur peut toujours glisser manuellement, seule l'avance automatique
+     est neutralisée en mettant sa vitesse à 0 côté composant si tu veux aller plus loin */
+}
+
 .types-carousel-track::-webkit-scrollbar-thumb {
   background: var(--line);
   border-radius: 3px;
