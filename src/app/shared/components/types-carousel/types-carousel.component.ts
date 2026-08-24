@@ -167,4 +167,3 @@ export class TypesCarouselComponent implements AfterViewInit {
     return this.longDescriptions[typeId];
   }
 }
- 
