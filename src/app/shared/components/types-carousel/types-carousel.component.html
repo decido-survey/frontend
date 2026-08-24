@@ -2,63 +2,72 @@
     <section class="types-carousel">
       <div class="types-carousel-head">
         <h2 class="types-carousel-title">5 façons de trancher</h2>
-        <div class="sub" style="margin-bottom: 0;">Fais glisser pour découvrir chaque type</div>
+        <div class="sub" style="margin-bottom: 0;">Survole ou touche une carte pour la lire</div>
       </div>
  
-      <div class="types-carousel-track">
-        @for (type of questionTypes; track type.id) {
-          <div class="type-preview-card">
-            <!-- Zone haute colorée : icône + phrase courte + élément caractéristique -->
-            <div class="type-preview-top" [style.background]="type.color">
-              <div class="type-preview-top-row">
-                <div class="type-preview-icon-lg">
-                  @switch (type.id) {
-                    @case ('qcm') {
-                      <svg lucideList class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+      <div
+        class="types-carousel-viewport"
+        (pointerenter)="pause()"
+        (pointerleave)="resume()"
+        (pointerdown)="pause()"
+        (pointerup)="resume()"
+        (pointercancel)="resume()"
+      >
+        <div class="types-carousel-track" [class.paused]="isPaused()">
+          @for (type of carouselItems(); track type.uid) {
+            <div class="type-preview-card">
+              <!-- Zone haute colorée : icône + phrase courte + élément caractéristique -->
+              <div class="type-preview-top" [style.background]="type.color">
+                <div class="type-preview-top-row">
+                  <div class="type-preview-icon-lg">
+                    @switch (type.id) {
+                      @case ('qcm') {
+                        <svg lucideList class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+                      }
+                      @case ('duel') {
+                        <svg lucideSwords class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+                      }
+                      @case ('note') {
+                        <svg lucideStar class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+                      }
+                      @case ('libre') {
+                        <svg lucideMessageSquare class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+                      }
+                      @case ('ouverte') {
+                        <svg lucideAlignLeft class="w-5 h-5 text-ink stroke-[2.2]"></svg>
+                      }
                     }
-                    @case ('duel') {
-                      <svg lucideSwords class="w-5 h-5 text-ink stroke-[2.2]"></svg>
-                    }
-                    @case ('note') {
-                      <svg lucideStar class="w-5 h-5 text-ink stroke-[2.2]"></svg>
-                    }
-                    @case ('libre') {
-                      <svg lucideMessageSquare class="w-5 h-5 text-ink stroke-[2.2]"></svg>
-                    }
-                    @case ('ouverte') {
-                      <svg lucideAlignLeft class="w-5 h-5 text-ink stroke-[2.2]"></svg>
-                    }
-                  }
+                  </div>
+                  <div class="type-preview-tagline">{{ type.desc }}</div>
                 </div>
-                <div class="type-preview-tagline">{{ type.desc }}</div>
+ 
+                @if (type.id === 'note') {
+                  <div class="type-preview-mock type-preview-stars">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span class="dim">★</span>
+                  </div>
+                } @else if (type.id === 'ouverte') {
+                  <div class="type-preview-mock">
+                    <div class="mock-bubble">« Super idée, j'adore ! »</div>
+                  </div>
+                } @else {
+                  <div class="type-preview-mock">
+                    <div class="mock-bar">
+                      <div class="mock-bar-fill" [style.width.%]="72"></div>
+                    </div>
+                    <div class="mock-bar">
+                      <div class="mock-bar-fill" [style.width.%]="28"></div>
+                    </div>
+                  </div>
+                }
               </div>
  
-              @if (type.id === 'note') {
-                <div class="type-preview-mock type-preview-stars">
-                  <span>★</span><span>★</span><span>★</span><span>★</span><span class="dim">★</span>
-                </div>
-              } @else if (type.id === 'ouverte') {
-                <div class="type-preview-mock">
-                  <div class="mock-bubble">« Super idée, j'adore ! »</div>
-                </div>
-              } @else {
-                <div class="type-preview-mock">
-                  <div class="mock-bar">
-                    <div class="mock-bar-fill" [style.width.%]="72"></div>
-                  </div>
-                  <div class="mock-bar">
-                    <div class="mock-bar-fill" [style.width.%]="28"></div>
-                  </div>
-                </div>
-              }
+              <!-- Zone basse blanche : nom + description détaillée -->
+              <div class="type-preview-bottom">
+                <div class="type-preview-name">{{ type.name }}</div>
+                <div class="type-preview-long-desc">{{ longDescription(type.id) }}</div>
+              </div>
             </div>
- 
-            <!-- Zone basse blanche : nom + description détaillée -->
-            <div class="type-preview-bottom">
-              <div class="type-preview-name">{{ type.name }}</div>
-              <div class="type-preview-long-desc">{{ longDescription(type.id) }}</div>
-            </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </section>
