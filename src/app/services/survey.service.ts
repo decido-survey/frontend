@@ -1,14 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
   Survey,
   SubmitVotePayload,
   SurveyResults,
-  SurveyResultItem
+  SurveyResultItem,
+  MySurveySummary
 } from '../models/survey.model';
 import { SurveyTypeId } from '../models/question-type.model';
+import { MOCK_MY_SURVEYS } from '../mocks/mock-my-surveys';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +107,33 @@ export class SurveyService {
         return of(this.computeLocalResults(survey));
       })
     );
+  }
+
+  getMySurveys(): Observable<MySurveySummary[]> {
+    return this.http.get<any[]>('/api/users/me/surveys').pipe(
+      map((list) =>
+        (list || []).map((s) => ({
+          id: s.id,
+          title: s.title,
+          type: (s.type || '').toString().toLowerCase(),
+          status: (s.status || '').toString().toLowerCase(),
+          totalVotes: s.results?.totalVotes ?? 0,
+          createdAt: s.createdAt,
+          responseToken: s.responseToken,
+          adminToken: s.adminToken
+        }))
+      ),
+      catchError(() => of(MOCK_MY_SURVEYS))
+    );
+  }
+
+  deleteSurveyAsAdmin(surveyId: string, adminToken: string): Observable<boolean> {
+    return this.http
+      .delete(`${this.baseUrl}/${surveyId}`, { headers: { 'X-Admin-Token': adminToken } })
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
   }
 
   // --- Local Storage Fallbacks ---

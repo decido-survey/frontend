@@ -368,6 +368,8 @@ h1 {
 }
 
 input[type=text],
+input[type=email],
+input[type=password],
 textarea {
   width: 100%;
   border: 2.5px solid var(--line);

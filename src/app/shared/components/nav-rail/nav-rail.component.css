@@ -1,0 +1,193 @@
+/* Mobile par défaut : pilule horizontale flottante, collée en bas */
+.nav-rail {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--panel);
+  border: 2.5px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  max-width: 220px;
+  opacity: 1;
+  transition: max-width 0.22s ease, opacity 0.16s ease;
+}
+
+.nav-items.collapsed {
+  max-width: 0;
+  opacity: 0;
+}
+
+.nav-item {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  outline: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.nav-item.active {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--line);
+}
+
+.nav-item:disabled {
+  cursor: default;
+}
+
+.nav-toggle {
+  color: var(--ink-soft);
+}
+
+/* Survol : uniquement sur les appareils avec un vrai pointeur, pour ne pas
+   rester "allumé" après un tap sur mobile/tactile */
+@media (hover: hover) and (pointer: fine) {
+  .nav-item:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .nav-item.active:hover {
+    background: var(--accent);
+    color: var(--accent-text);
+  }
+  .nav-item:disabled:hover {
+    background: var(--accent);
+  }
+}
+
+/* Desktop / tablette : pilule verticale flottante, collée à gauche */
+@media (min-width: 768px) {
+  .nav-rail {
+    left: 20px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+  }
+
+  .nav-items {
+    flex-direction: column;
+    max-width: none;
+    max-height: 220px;
+    transition: max-height 0.22s ease, opacity 0.16s ease;
+  }
+
+  .nav-items.collapsed {
+    max-height: 0;
+    max-width: none;
+  }
+}
+
+/* --- Modale "coller un lien", fond flouté comme le menu compte --- */
+.link-prompt-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 31, 0.04);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 70;
+}
+
+.link-prompt {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  width: min(92vw, 380px);
+  background: var(--panel);
+  border: 2.5px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-prompt-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.link-prompt-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.link-prompt-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.link-prompt-desc {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.link-prompt-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link-prompt input[type='text'] {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+
+.link-prompt-error {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #e53e3e;
+}

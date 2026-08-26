@@ -66,6 +66,17 @@ export interface SurveyResultItem {
   percentage: number;
 }
 
+export interface MySurveySummary {
+  id: string;
+  title: string;
+  type: string;
+  status: string;
+  totalVotes: number;
+  createdAt: string;
+  responseToken: string;
+  adminToken: string;
+}
+
 export interface SurveyResults {
   surveyId: string;
   title: string;

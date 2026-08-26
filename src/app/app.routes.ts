@@ -3,6 +3,9 @@ import { LandingComponent } from './features/landing/landing.component';
 import { CreationWizardComponent } from './features/creation/creation-wizard.component';
 import { SurveyVoteComponent } from './features/vote/survey-vote.component';
 import { SurveyResultsComponent } from './features/results/survey-results.component';
+import { MySurveysComponent } from './features/my-surveys/my-surveys.component';
+import { MyResultsComponent } from './features/my-results/my-results.component';
+  
 
 export const routes: Routes = [
   // Landing
@@ -39,7 +42,16 @@ export const routes: Routes = [
     component: SurveyResultsComponent,
     title: 'Administration – Decido'
   },
-
+    {
+    path: 'mes-sondages',
+    component: MySurveysComponent,
+    title: 'Mes sondages – Decido'
+  },
+  {
+    path: 'mes-resultats',
+    component: MyResultsComponent,
+    title: 'Mes résultats – Decido'
+  },
   // Fallback
   {
     path: '**',

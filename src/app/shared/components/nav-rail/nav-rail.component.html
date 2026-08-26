@@ -1,0 +1,90 @@
+@if (!isLandingPage()) {
+  <nav class="nav-rail">
+    <div class="nav-items" [class.collapsed]="!navState.expanded()" [attr.aria-hidden]="!navState.expanded()">
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="isOnCreate()"
+        [disabled]="isOnCreate()"
+        [tabindex]="navState.expanded() ? 0 : -1"
+        (click)="onCreateClick()"
+        aria-label="Créer un sondage"
+      >
+        <svg lucidePlus class="w-5 h-5"></svg>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="isOnMySurveys()"
+        [tabindex]="navState.expanded() ? 0 : -1"
+        (click)="onMySurveysClick()"
+        aria-label="Mes sondages"
+      >
+        <svg lucideFolderOpen class="w-5 h-5"></svg>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="isOnMyResults()"
+        [tabindex]="navState.expanded() ? 0 : -1"
+        (click)="onMyResultsClick()"
+        aria-label="Mes résultats"
+      >
+        <svg lucideBarChart2 class="w-5 h-5"></svg>
+      </button>
+    </div>
+
+    <button
+      type="button"
+      class="nav-item nav-toggle"
+      (click)="toggle()"
+      [attr.aria-label]="navState.expanded() ? 'Réduire le menu' : 'Ouvrir le menu'"
+    >
+      @if (navState.expanded()) {
+        <svg lucideX class="w-5 h-5"></svg>
+      } @else {
+        <svg lucideMenu class="w-5 h-5"></svg>
+      }
+    </button>
+  </nav>
+
+  @if (linkPromptMode()) {
+    <div class="link-prompt-backdrop" (click)="closeLinkPrompt()"></div>
+    <div class="link-prompt">
+      <div class="link-prompt-head">
+        <div class="link-prompt-icon">
+          <svg lucideLink2 class="w-4 h-4"></svg>
+        </div>
+        <div>
+          <div class="link-prompt-title">
+            {{ linkPromptMode() === 'sondages' ? 'Editer mes sondages' : 'Voir mes résultats' }}
+          </div>
+          <div class="link-prompt-desc">
+            Pas de compte ? Colle le lien reçu à la création de ton sondage.
+          </div>
+        </div>
+        <button type="button" class="link-prompt-close" (click)="closeLinkPrompt()" aria-label="Fermer">
+          <svg lucideX class="w-4 h-4"></svg>
+        </button>
+      </div>
+
+      <input
+        type="text"
+        placeholder="https://…/s/xxx/admin/yyy"
+        [value]="linkInput()"
+        (input)="onLinkInputChange($event)"
+        (keyup.enter)="submitLinkPrompt()"
+      />
+
+      @if (linkError()) {
+        <div class="link-prompt-error">{{ linkError() }}</div>
+      }
+
+      <button type="button" class="btn btn-primary btn-block" (click)="submitLinkPrompt()">
+        Continuer
+      </button>
+    </div>
+  }
+}

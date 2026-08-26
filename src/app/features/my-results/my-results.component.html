@@ -1,0 +1,25 @@
+<app-topbar />
+
+<section class="screen">
+  <app-back-link label="accueil" (clickBack)="goHome()" />
+
+  <h1>Mes résultats</h1>
+  <div class="sub">Clos ou en cours — choisis un sondage pour voir ses résultats</div>
+
+  @if (loading()) {
+    <div class="sub text-center" style="margin-top: 40px;">Chargement…</div>
+  } @else if (surveys().length === 0) {
+    <div class="hint-box">Tu n'as pas encore de sondage à consulter avec ce compte.</div>
+  } @else {
+    <div class="flex flex-col gap-2.5">
+      @for (survey of surveys(); track survey.id) {
+        <div class="link-card" style="cursor: pointer;" (click)="viewResults(survey)">
+          <div class="font-semibold text-sm">{{ survey.title }}</div>
+          <div class="opt-row-desc" style="margin-top: 3px;">
+            {{ survey.type }} · {{ survey.status }} · {{ survey.totalVotes }} votes
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
