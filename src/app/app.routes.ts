@@ -21,6 +21,11 @@ export const routes: Routes = [
     component: CreationWizardComponent,
     title: 'Créer un sondage – Decido'
   },
+  {
+    path: 'create/:surveyId',
+    component: CreationWizardComponent,
+    title: 'Modifier un sondage – Decido'
+  },
 
   // Page de vote (répondants)
   {

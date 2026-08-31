@@ -73,11 +73,11 @@
    rester "allumé" après un tap sur mobile/tactile */
 @media (hover: hover) and (pointer: fine) {
   .nav-item:hover {
-    background: var(--paper);
+    transform: scale(1.1);
     color: var(--ink);
   }
   .nav-item.active:hover {
-    background: var(--accent);
+    transform: none;
     color: var(--accent-text);
   }
   .nav-item:disabled:hover {
@@ -86,11 +86,11 @@
 }
 
 /* Desktop / tablette : pilule verticale flottante, collée à gauche */
-@media (min-width: 768px) {
+@media (min-width: 1350px) {
   .nav-rail {
     left: 20px;
     bottom: auto;
-    top: 50%;
+    top: calc(50%);
     transform: translateY(-50%);
     flex-direction: column;
   }

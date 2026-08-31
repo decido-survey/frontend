@@ -66,15 +66,33 @@ export interface SurveyResultItem {
   percentage: number;
 }
 
+export type MySurveyStatusFilter = 'all' | 'draft' | 'published' | 'closed' | 'expired';
+
+export interface MySurveysCounts {
+  all: number;
+  draft: number;
+  published: number;
+  closed: number;
+  expired: number;
+}
+
 export interface MySurveySummary {
   id: string;
   title: string;
-  type: string;
-  status: string;
+  type: SurveyTypeId;
+  status: 'draft' | 'published' | 'closed' | 'expired';
   totalVotes: number;
   createdAt: string;
   responseToken: string;
   adminToken: string;
+}
+
+export interface MySurveysPage {
+  items: MySurveySummary[];
+  page: number;
+  pageSize: number;
+  total: number;
+  counts: MySurveysCounts;
 }
 
 export interface SurveyResults {

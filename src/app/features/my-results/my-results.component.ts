@@ -25,8 +25,8 @@ export class MyResultsComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
-    this.surveyService.getMySurveys().subscribe((list) => {
-      this.surveys.set(list);
+    this.surveyService.getMySurveys(1, 100, 'all').subscribe((res) => {
+      this.surveys.set(res.items);
       this.loading.set(false);
     });
   }

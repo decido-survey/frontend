@@ -4,6 +4,7 @@ import { CreationStateService } from '../../../../services/creation-state.servic
 import { QUESTION_TYPES, SurveyTypeId } from '../../../../models/question-type.model';
 import { BackLinkComponent } from '../../../../shared/components/back-link/back-link.component';
 import { OptionRowComponent } from '../../../../shared/components/option-row/option-row.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-setup-step',
@@ -14,6 +15,7 @@ import { OptionRowComponent } from '../../../../shared/components/option-row/opt
 export class SetupStepComponent {
   protected readonly state = inject(CreationStateService);
   protected readonly letters = 'ABCDEFGH';
+  private readonly router = inject(Router);
 
   currentTypeName(): string {
     const type = this.state.selectedType();
@@ -41,5 +43,17 @@ export class SetupStepComponent {
   onCreatorInput(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.state.creatorPseudo.set(target.value);
+  }
+
+    protected backLabel(): string {
+    return this.state.isEditing ? 'annuler la modification' : 'changer de type (' + this.currentTypeName() + ')';
+  }
+
+  protected onBack(): void {
+    if (this.state.isEditing) {
+      this.router.navigate(['/mes-sondages']);
+    } else {
+      this.state.goToStep('home');
+    }
   }
 }

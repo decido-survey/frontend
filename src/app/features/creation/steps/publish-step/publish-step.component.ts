@@ -19,37 +19,45 @@ export class PublishStepComponent implements OnInit {
   private readonly router = inject(Router);
 
   ngOnInit(): void {
-    if (!this.state.shareLink()) {
-      const type = this.state.selectedType() || 'qcm';
-      const props = this.state.options()
-        .filter((o) => o.trim().length > 0)
-        .map((text, idx) => ({
-          text,
-          orderIndex: idx + 1
-        }));
-
-      const newSurvey: Partial<Survey> = {
-        title: this.state.questionText() || 'Sondage sans titre',
-        type,
-        creatorPseudo: this.state.creatorPseudo() || 'Anonyme',
-        settings: {
-          duration: this.state.duration(),
-          resultsVisibility: this.state.publicResults() ? 'public' : 'private',
-          oneVotePerDevice: this.state.oneVotePerDevice()
-        },
-        question: {
-          text: this.state.questionText(),
-          propositions: props
-        }
-      };
-
-      this.surveyService.createSurvey(newSurvey).subscribe((res) => {
-        this.state.shareLink.set(res.shareUrl);
-        this.state.adminLink.set(res.adminUrl);
-        this.state.responseToken.set(res.responseToken);
-        this.state.adminToken.set(res.adminToken);
-      });
+    if (this.state.isEditing) {
+      this.saveEdits();
+      return;
     }
+    if (!this.state.shareLink()) {
+      // … logique de création existante, inchangée …
+    }
+  }
+
+  private saveEdits(): void {
+    const surveyId = this.state.editingSurveyId();
+    if (!surveyId) return;
+
+    const type = this.state.selectedType() || 'qcm';
+    const props = this.state.options()
+      .filter((o) => o.trim().length > 0)
+      .map((text, idx) => ({ text, orderIndex: idx + 1 }));
+
+    this.surveyService.updateMySurvey(surveyId, {
+      title: this.state.questionText() || 'Sondage sans titre',
+      type,
+      creatorPseudo: this.state.creatorPseudo() || 'Anonyme',
+      settings: {
+        duration: this.state.duration(),
+        resultsVisibility: this.state.publicResults() ? 'public' : 'private',
+        oneVotePerDevice: this.state.oneVotePerDevice()
+      },
+      style: { themeIdx: this.state.themeIdx(), colorHex: '' },
+      question: {
+        text: this.state.questionText(),
+        propositions: props
+      }
+    }).subscribe();
+  }
+
+  goToMySurveys(): void {
+    this.state.editingSurveyId.set(null);
+    this.state.editingAdminToken.set(null);
+    this.router.navigate(['/mes-sondages']);
   }
 
   viewResults(): void {

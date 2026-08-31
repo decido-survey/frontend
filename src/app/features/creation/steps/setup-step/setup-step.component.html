@@ -1,7 +1,7 @@
 <app-back-link
-  [label]="'changer de type (' + currentTypeName() + ')'"
+  [label]="backLabel()"
   [stepIndex]="1"
-  (clickBack)="state.goToStep('home')"
+  (clickBack)="onBack()"
 />
 
 <h1>Ta question</h1>

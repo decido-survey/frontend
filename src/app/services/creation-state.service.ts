@@ -1,6 +1,7 @@
 import { Injectable, computed, signal, inject } from '@angular/core';
 import { SurveyTypeId, QUESTION_TYPES } from '../models/question-type.model';
 import { ThemeService } from './theme.service';
+import { Survey } from '../models/survey.model';
 
 export type WizardStep = 'home' | 'setup' | 'theme' | 'advanced' | 'publish';
 
@@ -30,6 +31,9 @@ export class CreationStateService {
   readonly adminLink = signal<string>('');
   readonly responseToken = signal<string>('');
   readonly adminToken = signal<string>('');
+  readonly editingSurveyId = signal<string | null>(null);
+  readonly editingAdminToken = signal<string | null>(null);
+
 
   readonly currentStepIndex = computed(() => {
     return STEPS_ORDER.indexOf(this.currentStep());
@@ -99,6 +103,35 @@ export class CreationStateService {
     }
   }
 
+
+  get isEditing(): boolean {
+    return this.editingSurveyId() !== null;
+  }
+
+  loadForEdit(survey: Survey, surveyId: string, adminToken: string): void {
+    this.editingSurveyId.set(surveyId);
+    this.editingAdminToken.set(adminToken);
+
+    this.selectedType.set(survey.type);
+    this.questionText.set(survey.question.text);
+
+    const propTexts = (survey.question.propositions || []).map((p) => p.text);
+    if (survey.type === 'note' || survey.type === 'ouverte') {
+      this.options.set([]);
+    } else {
+      this.options.set(propTexts.length >= 2 ? propTexts : ['', '']);
+    }
+
+    this.creatorPseudo.set(survey.creatorPseudo || '');
+    this.themeIdx.set(survey.style?.themeIdx || 0);
+    this.publicResults.set(survey.settings?.resultsVisibility === 'public');
+    this.oneVotePerDevice.set(survey.settings?.oneVotePerDevice ?? true);
+    this.duration.set(survey.settings?.duration || '24h');
+
+    this.themeService.setAccentForTypeAndIndex(survey.type, this.themeIdx());
+    this.currentStep.set('setup');
+  }
+
   reset(): void {
     this.currentStep.set('home');
     this.selectedType.set(null);
@@ -115,5 +148,8 @@ export class CreationStateService {
     this.responseToken.set('');
     this.adminToken.set('');
     this.themeService.setAccentColor('#7C5CFC');
+    this.editingSurveyId.set(null);
+    this.editingAdminToken.set(null);
+
   }
 }

@@ -1,0 +1,334 @@
+.ms-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.ms-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 13px;
+  background: var(--panel);
+  color: var(--ink-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ms-tab.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ms-tab:not(.active):hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+}
+
+.ms-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+/* Responsive columns: 1 / 2 / 3 / 4 depending on viewport width. With PAGE_SIZE=8,
+   this lets the grid show sensible rows (e.g. 4 columns -> 2 rows). */
+@media (min-width: 480px) {
+  .ms-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* @media (min-width: 720px) {
+  .ms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+*/
+@media (min-width: 720px) {
+  .ms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} 
+
+.ms-card {
+  width: 100%;
+  border: 2.5px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  outline: none;
+  font: inherit;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.ms-card:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Normal survey cards move on hover, but exclude the create-card which has
+     a distinct hover behaviour. */
+  .ms-card:not(.ms-card-create):hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .ms-card:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+}
+
+.ms-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+}
+
+.ms-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ms-sep {
+  opacity: 0.5;
+}
+
+.ms-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.ms-card-divider {
+  border-top: 1.5px dashed #c7cada;
+}
+
+.ms-card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.ms-card-create {
+  align-items: center;
+  justify-content: center;
+  border-style: dashed;
+  box-shadow: none;
+  color: var(--ink-soft);
+  gap: 8px;
+  min-height: 120px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Distinct hover for the create card: emphasise the accent colour, no
+     movement like the regular cards. */
+  .ms-card-create:hover {
+    transform: none;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--color-ink);
+    box-shadow: none;
+  }
+}
+
+.ms-create-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ms-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.ms-page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 2px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ms-page-btn.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.ms-page-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.ms-page-ellipsis {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ink-soft);
+  padding: 0 4px;
+}
+
+/* Rendre la carte cliquable au clavier comme un vrai bouton */
+.ms-card {
+  position: relative;
+}
+.ms-card[role='button'] {
+  outline: none;
+}
+.ms-card[role='button']:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ms-delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--panel);
+  color: #e53e3e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s ease, transform 0.08s ease, border-color 0.12s ease;
+  z-index: 2;
+}
+
+.ms-delete-btn:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ms-delete-btn:hover {
+    background: #fff5f5;
+    transform: scale(1.06);
+    border-color: #e53e3e;
+  }
+}
+
+/* Modale de confirmation de suppression — même traitement que la modale
+   "coller un lien" du menu (fond flouté, pas assombri) */
+.del-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 31, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 70;
+}
+
+.del-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  width: min(92vw, 380px);
+  background: var(--panel);
+  border: 2.5px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.del-modal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.del-modal-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  border: 2px solid var(--line);
+  background: #fff5f5;
+  color: #e53e3e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.del-modal-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.del-modal-desc {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.del-modal-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-danger {
+  background: #e53e3e;
+  color: #fff;
+  border-color: var(--line);
+}
