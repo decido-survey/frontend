@@ -1,59 +1,93 @@
 <app-topbar />
 
 <section class="screen">
-  <app-back-link label="créer un sondage" (clickBack)="goHome()" />
+  <app-back-link [label]="isAdmin() ? 'mes résultats' : 'accueil'" (clickBack)="onBack()" />
 
-  <h1>Résultats</h1>
-  
   @if (loading()) {
     <div class="sub text-center" style="margin-top: 40px;">Chargement des résultats…</div>
-  } @else if (!results()) {
-    <div class="demo-tag">aperçu — données d'exemple</div>
-    <h1>Sondage d'exemple</h1>
-    
-    @for (item of demoResults.items; track item.text) {
-      <app-result-bar
-        [label]="item.text || ''"
-        [votesCount]="item.voteCount"
-        [percentage]="item.percentage"
-      />
-    }
-
-    <div class="sub" style="margin-top: 14px;">
-      {{ demoResults.totalVotes }} votes au total · créé par toi
-    </div>
+  } @else if (notFound() || !stats()) {
+    <h1>Résultats introuvables 😕</h1>
+    <div class="sub">Ce lien semble invalide ou a expiré.</div>
+    <button class="btn btn-primary btn-block" (click)="goHome()">Créer un sondage</button>
   } @else {
-    <div class="preview-eyebrow" style="margin-bottom: 4px; text-transform: uppercase;">
-      {{ results()?.type }}
+    <div class="res-eyebrow" [style.color]="typeInfo()?.color">
+      {{ typeInfo()?.name }}@if (isAdmin()) { <span> · administration</span> }
     </div>
-    <h2 class="font-bold text-xl mb-4">{{ results()?.title }}</h2>
 
-    @if (results()?.type === 'ouverte' && results()?.openResponses?.length) {
-      <div class="flex flex-col gap-3 my-4">
-        @for (resp of results()?.openResponses; track $index) {
-          <div class="link-card">
-            <div class="font-semibold text-sm mb-1">{{ resp.text }}</div>
-            <div class="opt-row-desc">— {{ resp.pseudo }}</div>
-          </div>
-        }
-      </div>
-    } @else {
-      @for (item of results()?.items; track item.propositionId || $index) {
-        <app-result-bar
-          [label]="item.text || 'Option'"
-          [votesCount]="item.voteCount"
-          [percentage]="item.percentage"
-        />
+    <h1>{{ stats()?.title }}</h1>
+
+    <div class="res-meta">
+      <span class="res-meta-dot" [style.backgroundColor]="typeInfo()?.color"></span>
+      <span>{{ statusLabel() }}</span>
+      <span class="res-meta-sep">·</span>
+      <span>{{ stats()?.totalVotes }} {{ stats()?.totalVotes === 1 ? 'vote' : 'votes' }}</span>
+      <span class="res-meta-sep">·</span>
+      <span>créé par {{ stats()?.creatorPseudo || 'Anonyme' }}</span>
+      @if (stats()?.createdAt) {
+        <span class="res-meta-sep">·</span>
+        <span>{{ timeAgo(stats()?.createdAt) }}</span>
       }
-    }
-
-    <div class="sub" style="margin-top: 16px;">
-      {{ results()?.totalVotes }} {{ results()?.totalVotes === 1 ? 'vote' : 'votes' }} au total
-      · créé par {{ results()?.creatorPseudo || 'Anonyme' }}
     </div>
-  }
 
-  <button class="btn btn-primary btn-block" style="margin-top: auto;" (click)="goHome()">
-    Créer un autre sondage
-  </button>
+    <div class="res-panel">
+      @switch (stats()?.type) {
+        @case ('qcm') {
+          @for (item of stats()?.items; track item.propositionId) {
+            <app-result-bar [label]="item.text || 'Option'" [votesCount]="item.voteCount" [percentage]="item.percentage" />
+          }
+        }
+        @case ('duel') {
+          @if (stats()?.items?.length === 2) {
+            <app-duel-bar
+              [leftLabel]="stats()!.items[0].text || ''"
+              [leftCount]="stats()!.items[0].voteCount"
+              [leftPct]="stats()!.items[0].percentage"
+              [rightLabel]="stats()!.items[1].text || ''"
+              [rightCount]="stats()!.items[1].voteCount"
+              [rightPct]="stats()!.items[1].percentage"
+              [color]="typeInfo()?.color || 'var(--c-duel)'"
+            />
+          }
+        }
+        @case ('note') {
+          <app-note-histogram
+            [scale]="stats()?.noteScale || 5"
+            [distribution]="noteDistribution()"
+            [average]="stats()?.averageNote || 0"
+            [totalVotes]="stats()?.totalVotes || 0"
+            [color]="typeInfo()?.color || 'var(--c-note)'"
+          />
+        }
+        @case ('ouverte') {
+          <div class="hint-box">Les réponses à cette question ouverte s'affichent ci-dessous.</div>
+        }
+      }
+
+      @if (stats()?.totalVotes === 0) {
+        <div class="hint-box" style="margin-top: 4px;">
+          Aucun vote pour l'instant — reviens plus tard pour voir les résultats.
+        </div>
+      }
+    </div>
+
+    @if (showDetailSection()) {
+      <div class="res-detail">
+        <app-respondents-list
+          [title]="detailSectionTitle()"
+          [items]="detailItems()"
+          [total]="detailTotal()"
+          [loading]="detailLoading()"
+          [loadingMore]="detailLoadingMore()"
+          [hasMore]="hasMoreDetails()"
+          [accent]="typeInfo()?.color || 'var(--accent)'"
+          [emptyLabel]="stats()?.type === 'ouverte' ? 'Aucune réponse pour l\'instant.' : 'Aucun votant pour l\'instant.'"
+          (loadMore)="loadMoreDetails()"
+        />
+      </div>
+    } @else if (!isAdmin() && stats()?.type !== 'ouverte') {
+      <div class="hint-box" style="margin-top: 18px;">
+        Le détail des votants n'est visible que par l'administrateur de ce sondage.
+      </div>
+    }
+  }
 </section>

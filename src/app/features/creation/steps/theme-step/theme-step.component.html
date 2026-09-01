@@ -12,8 +12,8 @@
   @if (state.selectedType() === 'ouverte') {
     <div class="preview-opt">💬 réponse libre…</div>
   } @else if (state.selectedType() === 'note') {
-    <div class="preview-opt">★ échelle de 1 à 5</div>
-  } @else {
+    <div class="preview-opt">★ échelle de 1 à {{ state.noteScale() }}</div>
+  }@else {
     @for (opt of filledOptions(); track $index) {
       <div class="preview-opt">{{ opt }}</div>
     }

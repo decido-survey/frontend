@@ -5,6 +5,7 @@ import { QUESTION_TYPES, SurveyTypeId } from '../../../../models/question-type.m
 import { BackLinkComponent } from '../../../../shared/components/back-link/back-link.component';
 import { OptionRowComponent } from '../../../../shared/components/option-row/option-row.component';
 import { Router } from '@angular/router';
+import { NoteScale } from '../../../../models/survey.model';
 
 @Component({
   selector: 'app-setup-step',
@@ -29,11 +30,12 @@ export class SetupStepComponent {
       qcm: 'On mange quoi ce midi ?',
       duel: 'Pizza ou sushi ce soir ?',
       note: 'On est chaud à combien pour sortir ?',
-      libre: 'Quelle destination pour le voyage ?',
       ouverte: 'Une idée de nom pour le projet ?'
     };
     return type ? map[type] : 'Pose ta question…';
   }
+
+  protected readonly noteScaleOptions: NoteScale[] = [3, 5, 10, 20];
 
   onQuestionInput(event: Event): void {
     const target = event.target as HTMLTextAreaElement;

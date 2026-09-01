@@ -1,0 +1,69 @@
+.rl-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rl-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.rl-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+}
+
+.rl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rl-item {
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: var(--panel);
+}
+
+.rl-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    gap: 8px;
+}
+
+.rl-pseudo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+}
+
+.rl-pseudo-anon {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-soft);
+}
+
+.rl-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+}
+
+.rl-answer {
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.rl-load-more {
+    margin-top: 12px;
+    width: 100%;
+}

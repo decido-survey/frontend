@@ -36,16 +36,20 @@
         (input)="onTextResponseInput($event)"
       ></textarea>
     } @else if (survey()?.type === 'note') {
-      <label class="field-label">Ta note sur 5</label>
-      <div class="flex gap-2 justify-center my-4">
-        @for (star of [1, 2, 3, 4, 5]; track star) {
+      <label class="field-label">Ta note sur {{ currentNoteScale() }}</label>
+      <div class="note-picker" [class.note-picker-stars]="currentNoteScale() <= 5">
+        @for (n of noteRange(); track n) {
           <button
-            class="type-card flex-row items-center justify-center p-3"
-            [class.pressed]="selectedNote() === star"
-            [style.background]="selectedNote() === star ? 'var(--accent)' : 'var(--panel)'"
-            (click)="selectedNote.set(star)"
+            type="button"
+            class="note-pip"
+            [class.pressed]="selectedNote() === n"
+            (click)="selectedNote.set(n)"
           >
-            <span class="font-bold text-lg">{{ star }} ★</span>
+            @if (currentNoteScale() <= 5) {
+              <span class="font-bold text-lg">{{ n }} ★</span>
+            } @else {
+              <span class="font-bold text-sm">{{ n }}</span>
+            }
           </button>
         }
       </div>
@@ -72,12 +76,22 @@
     }
 
     <!-- Respondent Pseudo Input (Mandatory) -->
-    <label class="field-label" style="margin-top: 16px;">
+    <!-- <label class="field-label" style="margin-top: 16px;">
       Ton pseudo <span class="text-red-500">*</span>
     </label>
     <input
       type="text"
       placeholder="ex : Alex"
+      [value]="respondentPseudo()"
+      (input)="onPseudoInput($event)"
+    /> -->
+    <!-- pseudo -->
+    <label class="field-label" style="margin-top: 16px;">
+      Ton pseudo <span class="opt-tag">(optionnel)</span>
+    </label>
+    <input
+      type="text"
+      placeholder="Laisse vide pour rester anonyme"
       [value]="respondentPseudo()"
       (input)="onPseudoInput($event)"
     />

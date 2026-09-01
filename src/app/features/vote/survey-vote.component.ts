@@ -64,7 +64,7 @@ export class SurveyVoteComponent implements OnInit {
   }
 
   protected canSubmit(): boolean {
-    if (!this.respondentPseudo().trim()) return false;
+    //if (!this.respondentPseudo().trim()) return false;
     const s = this.survey();
     if (!s) return false;
     if (s.type === 'ouverte') return this.textResponse().trim().length > 0;
@@ -77,17 +77,22 @@ export class SurveyVoteComponent implements OnInit {
     const token = this.route.snapshot.paramMap.get('token');
     if (!s || !token || !this.canSubmit()) return;
 
-    this.surveyService
-      .submitVote({
-        responseToken: token,
-        respondentPseudo: this.respondentPseudo().trim(),
-        propositionId: this.selectedPropositionId() || undefined,
-        noteValue: this.selectedNote() || undefined,
-        textResponse: this.textResponse() || undefined
-      })
-      .subscribe(() => {
-        this.voted.set(true);
-      });
+    this.surveyService.submitVote({
+      responseToken: token,
+      respondentPseudo: this.respondentPseudo().trim() || undefined,
+      propositionId: this.selectedPropositionId() || undefined,
+      noteValue: this.selectedNote() || undefined,
+      textResponse: this.textResponse() || undefined
+    }).subscribe(() => this.voted.set(true));
+  }
+
+
+  protected currentNoteScale(): number {
+    return this.survey()?.question?.noteScale || 5;
+  }
+
+  protected noteRange(): number[] {
+    return Array.from({ length: this.currentNoteScale() }, (_, i) => i + 1);
   }
 
   protected goToResults(): void {

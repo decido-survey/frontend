@@ -49,7 +49,8 @@ export class PublishStepComponent implements OnInit {
       style: { themeIdx: this.state.themeIdx(), colorHex: '' },
       question: {
         text: this.state.questionText(),
-        propositions: props
+        propositions: props,
+        noteScale: type === 'note' ? this.state.noteScale() : undefined
       }
     }).subscribe();
   }

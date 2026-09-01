@@ -1,0 +1,20 @@
+<div class="duel-bar">
+  <div class="duel-side duel-left" [style.width.%]="leftPct()" [style.background]="color()">
+    @if (leftPct() >= 22) { <span class="duel-side-label">{{ leftLabel() }}</span> }
+  </div>
+  <div class="duel-side duel-right" [style.width.%]="rightPct()">
+    @if (rightPct() >= 22) { <span class="duel-side-label">{{ rightLabel() }}</span> }
+  </div>
+</div>
+<div class="duel-legend">
+  <div class="duel-legend-item">
+    <span class="duel-dot" [style.background]="color()"></span>
+    <span class="duel-legend-label">{{ leftLabel() }}</span>
+    <span class="duel-legend-value">{{ leftCount() }} · {{ leftPct() }}%</span>
+  </div>
+  <div class="duel-legend-item">
+    <span class="duel-dot" style="background: var(--paper); border: 2px solid var(--line);"></span>
+    <span class="duel-legend-label">{{ rightLabel() }}</span>
+    <span class="duel-legend-value">{{ rightCount() }} · {{ rightPct() }}%</span>
+  </div>
+</div>

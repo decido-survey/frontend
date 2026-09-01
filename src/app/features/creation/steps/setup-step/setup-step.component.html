@@ -21,10 +21,20 @@
   </div>
 } @else if (state.selectedType() === 'note') {
 <label class="field-label">Échelle de notation</label>
-<div class="note-scale">
-  <div class="num">1</div>
-  <div class="track"></div>
-  <div class="num">5</div>
+<div class="scale-options">
+  @for (s of noteScaleOptions; track s) {
+    <button
+      type="button"
+      class="scale-pill"
+      [class.active]="state.noteScale() === s"
+      (click)="state.noteScale.set(s)"
+    >
+      1 – {{ s }}
+    </button>
+  }
+</div>
+<div class="hint-box" style="margin-top: 10px;">
+  Chacun votera avec une note de 1 à {{ state.noteScale() }}.
 </div>
 } @else {
 <label class="field-label">Réponses</label>

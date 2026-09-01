@@ -1,0 +1,16 @@
+<div class="note-summary">
+  <span class="note-avg">{{ average() }}</span>
+  <span class="note-avg-suffix">/ {{ scale() }} en moyenne · {{ totalVotes() }} {{ totalVotes() > 1 ? 'votes' : 'vote' }}</span>
+</div>
+
+<div class="note-chart">
+  @for (v of values(); track v) {
+    <div class="note-chart-col">
+      <span class="note-chart-count">{{ distribution()[v - 1] || 0 }}</span>
+      <div class="note-chart-bar-track">
+        <div class="note-chart-bar-fill" [style.height.%]="((distribution()[v - 1] || 0) / maxCount()) * 100" [style.background]="color()"></div>
+      </div>
+      <span class="note-chart-label">{{ v }}</span>
+    </div>
+  }
+</div>

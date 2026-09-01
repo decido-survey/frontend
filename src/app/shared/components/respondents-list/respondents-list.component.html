@@ -1,0 +1,30 @@
+<div class="rl-head">
+  <div class="rl-title">{{ title() }}</div>
+  <div class="rl-count">{{ total() }} {{ total() > 1 ? 'réponses' : 'réponse' }}</div>
+</div>
+
+@if (loading()) {
+  <div class="sub" style="margin: 8px 0;">Chargement…</div>
+} @else if (items().length === 0) {
+  <div class="hint-box">{{ emptyLabel() }}</div>
+} @else {
+  <div class="rl-list">
+    @for (item of items(); track $index) {
+      <div class="rl-item">
+        <div class="rl-item-top">
+          <span class="rl-pseudo" [class.rl-pseudo-anon]="isAnonymous(item.pseudo)">
+            {{ displayName(item.pseudo) }}
+          </span>
+          <span class="rl-date">{{ item.createdAt | date: 'dd/MM HH:mm' }}</span>
+        </div>
+        <div class="rl-answer" [style.color]="accent()">{{ item.answer }}</div>
+      </div>
+    }
+  </div>
+
+  @if (hasMore()) {
+    <button type="button" class="btn btn-ghost rl-load-more" [disabled]="loadingMore()" (click)="loadMore.emit()">
+      {{ loadingMore() ? 'Chargement…' : 'Charger plus' }}
+    </button>
+  }
+}

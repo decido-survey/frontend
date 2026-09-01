@@ -1,7 +1,7 @@
 import { Injectable, computed, signal, inject } from '@angular/core';
 import { SurveyTypeId, QUESTION_TYPES } from '../models/question-type.model';
 import { ThemeService } from './theme.service';
-import { Survey } from '../models/survey.model';
+import { Survey, NoteScale } from '../models/survey.model';
 
 export type WizardStep = 'home' | 'setup' | 'theme' | 'advanced' | 'publish';
 
@@ -25,6 +25,8 @@ export class CreationStateService {
   readonly publicResults = signal<boolean>(false);
   readonly oneVotePerDevice = signal<boolean>(true);
   readonly duration = signal<'1h' | '24h' | '7d' | 'unlimited'>('24h');
+
+  readonly noteScale = signal<NoteScale>(5);
 
   // Generated links on publish
   readonly shareLink = signal<string>('');
@@ -56,6 +58,7 @@ export class CreationStateService {
       this.options.set(['', '']);
     } else if (type === 'note') {
       this.options.set([]);
+      this.noteScale.set(5);
     } else if (type === 'ouverte') {
       this.options.set([]);
     } else {
@@ -111,6 +114,8 @@ export class CreationStateService {
   loadForEdit(survey: Survey, surveyId: string, adminToken: string): void {
     this.editingSurveyId.set(surveyId);
     this.editingAdminToken.set(adminToken);
+    
+    this.noteScale.set(survey.question.noteScale || 5);
 
     this.selectedType.set(survey.type);
     this.questionText.set(survey.question.text);
@@ -150,6 +155,7 @@ export class CreationStateService {
     this.themeService.setAccentColor('#7C5CFC');
     this.editingSurveyId.set(null);
     this.editingAdminToken.set(null);
+    this.noteScale.set(5);
 
   }
 }
